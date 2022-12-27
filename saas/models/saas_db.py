@@ -90,3 +90,16 @@ class SAASDB(models.Model):
         for build in self.filtered(lambda x: x.state == "done"):
             operator = build.operator_id
             operator._install_modules(build.name, [('name', 'in', operator.get_mandatory_modules())])
+
+    def action_open_agreement(self):
+        self.ensure_one()
+        domain = [('db_id', 'in', self.ids)]
+        action = {
+            'name': 'Logs',
+            'view_mode': 'tree,form',
+            'res_model': 'saas.log',
+            'type': 'ir.actions.act_window',
+            'context': self.env.context,
+            'domain': domain,
+        }
+        return action
