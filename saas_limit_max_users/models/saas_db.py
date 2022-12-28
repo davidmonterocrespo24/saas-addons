@@ -45,12 +45,12 @@ class SaasDb(models.Model):
         if not self.max_users_limit:
             return
 
-        self.execute_kw(
-            "base.limit.records_number",
-            "set_max_records",
-            "access_limit_max_users.max_users_limit",
-            self.max_users_limit,
-        )
+        #self.execute_kw(
+        #    "base.limit.records_number",
+        #    "set_max_records",
+        #    "access_limit_max_users.max_users_limit",
+        #    self.max_users_limit,
+        #)
 
     def read_values_from_build(self):
         vals = super(SaasDb, self).read_values_from_build()
