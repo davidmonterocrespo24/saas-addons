@@ -70,6 +70,19 @@ class SAASOperator(models.Model):
 
         return cluster.install_modules(db_name, modules)
 
+
+    def _update_module_base(self, db_name):
+        if self.type != 'local':
+            raise NotImplementedError()
+
+        return cluster.update_module_base(db_name)
+
+    def update_module_base(self, template_id, template_operator_id):
+        self.ensure_one()
+        self._update_module_base(template_operator_id.operator_db_name)
+        template_operator_id.state = 'post_init'
+        self.with_delay().post_init(template_id, template_operator_id)
+
     def install_modules(self, template_id, template_operator_id):
         self.ensure_one()
         modules = [module.name for module in template_id.template_module_ids]

@@ -98,6 +98,34 @@ def install_modules(db_name, modules):
         _request_stack.pop()
 
 
+def update_module_base(db_name):
+    conn = sql_db.db_connect(db_name)
+    with conn.cursor() as cr:
+        env = api.Environment(cr, SUPERUSER_ID, {})
+
+        # Set odoo.http.request to None.
+        #
+        # Odoo tries to use its values in translation system, which may eventually
+        # change currentThread().dbname to saas master value.
+        _request_stack.push(None)
+
+        # We need to have fresh module list before installing new ones
+        env["ir.module.module"].update_list()
+
+        module_ids = env["ir.module.module"].search(
+            [("name", "=", "base")]
+        )
+        with turn_off_tests():
+            module_ids.button_immediate_upgrade()
+
+        # Some magic to force reloading registry in other workers
+        env.registry.registry_invalidated = True
+        env.registry.signal_changes()
+
+        # return request back
+        _request_stack.pop()
+
+
 def post_init(db_name, template_post_init):
     conn = sql_db.db_connect(db_name)
     registry(db_name).check_signaling()

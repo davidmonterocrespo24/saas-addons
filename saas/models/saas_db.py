@@ -90,6 +90,10 @@ class SAASDB(models.Model):
         for build in self.filtered(lambda x: x.state == "done"):
             operator = build.operator_id
             operator._install_modules(build.name, [('name', 'in', operator.get_mandatory_modules())])
+    def action_update_module_base(self):
+        for build in self.filtered(lambda x: x.state == "done"):
+            operator = build.operator_id
+            operator._update_module_base(build.name)
 
     def action_open_agreement(self):
         self.ensure_one()
