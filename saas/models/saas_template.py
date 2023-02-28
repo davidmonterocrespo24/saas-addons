@@ -181,7 +181,7 @@ class SAASTemplateLine(models.Model):
             })
             r.flush()
             r.operator_db_id.with_delay().create_db(
-                "saas2",
+                None,
                 r.template_id.template_demo,
                 callback_obj=r,
                 callback_method='_on_template_created')
