@@ -149,7 +149,7 @@ class SAASTemplateLine(models.Model):
             states = op.template_operator_ids.mapped('state')
             return all((s in ['draft', 'done'] for s in states))
 
-        operators = template_operators.filtered(lambda x: x.state == "draft").mapped('operator_id')
+        operators = operators.filtered(filter_free_operators)
         if not operators:
             # it's not a time to start
             return
