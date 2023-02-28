@@ -143,6 +143,7 @@ class SAASTemplateLine(models.Model):
     def preparing_template_next(self):
         template_operators = self.search([('to_rebuild', '=', True), ('state', '=', 'draft')])
         operators = template_operators.mapped('operator_id')
+        _logger.debug('Preparing template for operators %s', str(operators))
         if not operators:
             # it's not a time to start
             return
