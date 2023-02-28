@@ -15,6 +15,7 @@
                     <group>
                         <field name="operator_db_name"/>
                         <field name="operator_id" options="{'no_create': 1}"/>
+                        <field name="to_build"/>
                     </group>
                 </sheet>
             </form>

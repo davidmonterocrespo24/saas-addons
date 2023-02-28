@@ -149,7 +149,7 @@ class SAASTemplateLine(models.Model):
             states = op.template_operator_ids.mapped('state')
             return all((s in ['draft', 'done'] for s in states))
 
-        operators = operators.filtered(filter_free_operators)
+        operators = template_operators.filtered(lambda x: x.state == "draft").mapped('operator_id')
         if not operators:
             # it's not a time to start
             return
@@ -181,7 +181,7 @@ class SAASTemplateLine(models.Model):
             })
             r.flush()
             r.operator_db_id.with_delay().create_db(
-                None,
+                "saas2",
                 r.template_id.template_demo,
                 callback_obj=r,
                 callback_method='_on_template_created')
