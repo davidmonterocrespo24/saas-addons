@@ -141,15 +141,8 @@ class SAASTemplateLine(models.Model):
 
     @api.model
     def preparing_template_next(self):
-        template_operators = self.get_to_rebuild()
+        template_operators = self.search([('to_rebuild', '=', True), ('state', '=', 'draft')])
         operators = template_operators.mapped('operator_id')
-
-        # filter out operators which already have template creating
-        def filter_free_operators(op):
-            states = op.template_operator_ids.mapped('state')
-            return all((s in ['draft', 'done'] for s in states))
-
-        operators = operators.filtered(filter_free_operators)
         if not operators:
             # it's not a time to start
             return
