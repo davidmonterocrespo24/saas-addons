@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2020 Eugene Molotov <https://it-projects.info/team/em230418>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="saas_db_form_view" model="ir.ui.view">
+        <field name="name">saas.db.repository.form</field>
+        <field name="model">saas.db</field>
+        <field name="inherit_id" ref="saas.saas_db_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='operator_id']" position="after">
+                <field name="contract_id" invisible="1"/>
+            </xpath>
+            <xpath expr="//group[last()]" position="after">
+                <notebook>
+                    <page string="Repositories">
+                        <field name="repository_ids" nolabel="1">
+                            <tree>
+                                <field name="source" widget="url"/>
+                                <field name="branch"/>
+                                <field name="rev_date"/>
+                                <field name="state"/>
+                                <field name="path"/>
+                                <field name="auto_pull"/>
+                                <button name="action_open_modules" type="object" icon="fa-external-link"
+                                        string="Open Repository Modules"
+                                        attrs="{'invisible': ['|',('module_count', '=', 0), ('state', '=', 'draft')]}"/>
+                                <button name="action_update" type="object" icon="fa-refresh" string="Update Repository"
+                                        attrs="{'invisible': ['|',('dirty', '=', True), ('state', 'in', ['draft','cloned'])]}"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+</odoo>
