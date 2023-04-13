@@ -26,7 +26,7 @@
                                         string="Open Repository Modules"
                                         attrs="{'invisible': ['|',('module_count', '=', 0), ('state', '=', 'draft')]}"/>
                                 <button name="action_update" type="object" icon="fa-refresh" string="Update Repository"
-                                        attrs="{'invisible': ['|',('dirty', '=', True), ('state', 'in', ['draft','cloned'])]}"/>
+                                        attrs="{'invisible': [ ('state', 'in', ['draft','cloned'])]}"/>
                             </tree>
                         </field>
                     </page>
