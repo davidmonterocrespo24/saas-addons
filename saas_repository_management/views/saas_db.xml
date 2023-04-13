@@ -17,11 +17,11 @@
                             <tree>
                                 <field name="source" widget="url"/>
                                 <field name="branch"/>
-                                <field name="rev_date"/>
+                                <field name="rev_date" optional="hide"/>
                                 <field name="state"/>
-                                <field name="path"/>
-                                <field name="auto_pull"/>
-                                <field name="module_count"/>
+                                <field name="path" optional="hide"/>
+                                <field name="auto_pull" optional="hide"/>
+                                <field name="module_count" optional="hide"/>
                                 <button name="action_open_modules" type="object" icon="fa-external-link"
                                         string="Open Repository Modules"
                                         attrs="{'invisible': ['|',('module_count', '=', 0), ('state', '=', 'draft')]}"/>
