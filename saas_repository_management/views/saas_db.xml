@@ -21,6 +21,7 @@
                                 <field name="state"/>
                                 <field name="path"/>
                                 <field name="auto_pull"/>
+                                <field name="module_count"/>
                                 <button name="action_open_modules" type="object" icon="fa-external-link"
                                         string="Open Repository Modules"
                                         attrs="{'invisible': ['|',('module_count', '=', 0), ('state', '=', 'draft')]}"/>
