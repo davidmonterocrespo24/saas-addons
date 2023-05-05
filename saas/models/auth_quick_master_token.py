@@ -9,5 +9,6 @@ class Token(models.Model):
     @api.model
     def create(self, vals):
         res = super(Token, self).create(vals)
-        self.env['saas.log'].log_db_authed(res)
+        #TODO daba error cuando creaba el log
+        #self.env['saas.log'].log_db_authed(res)
         return res
