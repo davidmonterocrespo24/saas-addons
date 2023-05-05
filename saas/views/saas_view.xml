@@ -82,4 +82,11 @@
               sequence="20"
               groups="base.group_no_one"
               action="saas_technical_template_action"/>
+
+    <menuitem name="Logs"
+              parent="saas_main_menu_config"
+              id="saas_main_menu_config_logs"
+              sequence="30"
+              groups="base.group_no_one"
+              action="saas_log_action"/>
 </odoo>

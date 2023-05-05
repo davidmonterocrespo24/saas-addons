@@ -32,6 +32,7 @@
     "data": [
         "security/saas_security.xml",
         "security/ir.model.access.csv",
+        "views/saas_log_views.xml",
         "views/saas_view.xml",
         "views/saas_template_views.xml",
         "views/saas_template_operator_views.xml",

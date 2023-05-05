@@ -1,0 +1,45 @@
+<!--# Copyright 2019 Denis Mudarisov <https://www.it-projects.info/team/trojikman>
+    # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).-->
+
+<odoo>
+    <record id="saas_log_tree" model="ir.ui.view">
+        <field name="name">saas.log.tree</field>
+        <field name="model">saas.log</field>
+        <field name="arch" type="xml">
+            <tree string="Logs">
+                <field name="type"/>
+                <field name="data_id"/>
+                <field name="description"/>
+                <field name="db_id"/>
+                <field name="user_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="saas_log_form" model="ir.ui.view">
+        <field name="name">saas.log.form</field>
+        <field name="model">saas.log</field>
+        <field name="arch" type="xml">
+            <form string="Logs">
+                <sheet>
+                    <group>
+                        <field name="type"/>
+                        <field name="data_id"/>
+                        <field name="description"/>
+                        <field name="db_id"/>
+                        <field name="user_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="saas_log_action" model="ir.actions.act_window">
+        <field name="name">Logs</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">saas.log</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+</odoo>
