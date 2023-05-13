@@ -6,7 +6,6 @@ from odoo.exceptions import ValidationError
 
 
 class SaasDb(models.Model):
-
     _inherit = "saas.db"
 
     max_users_limit = fields.Integer("Max Users Allowed")
@@ -28,10 +27,10 @@ class SaasDb(models.Model):
         # deactivate demo user and portal user
         for template in templates:
             for row in template.execute_kw(
-                "ir.model.data",
-                "search_read",
-                [("module", "=", "base"), ("name", "in", ["user_demo", "demo_user0"])],
-                ["model", "res_id"],
+                    "ir.model.data",
+                    "search_read",
+                    [("module", "=", "base"), ("name", "in", ["user_demo", "demo_user0"])],
+                    ["model", "res_id"],
             ):
                 template.execute_kw(
                     row["model"], "write", row["res_id"], {"active": False}
@@ -45,23 +44,23 @@ class SaasDb(models.Model):
         if not self.max_users_limit:
             return
 
-        #self.execute_kw(
-        #    "base.limit.records_number",
-        #    "set_max_records",
-        #    "access_limit_max_users.max_users_limit",
-        #    self.max_users_limit,
-        #)
+        self.execute_kw(
+            "base.limit.records_number",
+            "set_max_records",
+            "access_limit_max_users.max_users_limit",
+            self.max_users_limit,
+        )
 
     def read_values_from_build(self):
         vals = super(SaasDb, self).read_values_from_build()
 
-        #vals.update(
-        #    users_count=self.execute_kw(
-        #        "res.users",
-        #        "search_count",
-         #       [(("is_excluded_from_limiting", "=", False))],
-        #    )
-        #)
+        vals.update(
+            users_count=self.execute_kw(
+                "res.users",
+                "search_count",
+                [(("is_excluded_from_limiting", "=", False))],
+            )
+        )
 
         if not self.max_users_limit:
             model, res_id = self.xmlid_to_res_model_res_id(
