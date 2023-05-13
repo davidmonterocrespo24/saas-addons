@@ -66,6 +66,6 @@ class SaasDb(models.Model):
         self.execute_kw(model, "write", res_id, vals)
 
         template = self.env.ref("saas_build_admin.template_build_admin_is_set")
-        template.with_context(build=self, build_admin_password=password).send_mail(self.admin_user.id, force_send=True, raise_exception=True)
+        template.with_context(build=self, build_admin_password=password).send_mail(self.admin_user.id)
 
         self.is_admin_user_updated_on_build = True

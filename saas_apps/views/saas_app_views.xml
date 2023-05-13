@@ -49,6 +49,7 @@
                 <sheet>
                     <field name="icon_image" widget="image" class="oe_avatar o_field_image"/>
                     <group>
+                        <field name="name"/>
                         <field name="shortdesc"/>
                         <field name="allow_to_sell"/>
                         <field name="month_price" class="oe_inline" widget='monetary'/>
