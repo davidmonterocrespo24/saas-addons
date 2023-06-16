@@ -50,7 +50,12 @@ class Main(SignupVerifyEmail):
             if d.get("saas_template_id"):
                 template = request.env["saas.template"].browse(int(d.get("saas_template_id")))
             elif d.get("installing_modules"):
-                template = request.env.ref("saas_apps.base_template")
+                try:
+                    template = request.env.ref("saas_apps.base_template")
+                except Exception:
+                    # TODO DAVID  Obtener una plantilla aleatoria
+                    template = request.env["saas.template"].sudo().search([('is_technical_template', '=', True)],
+                                                                          limit=1)
 
             elif d.get("sale_order_id"):
                 # Buy now is pressed
@@ -61,7 +66,12 @@ class Main(SignupVerifyEmail):
                     ("id", "in", order.mapped("order_line.product_id.product_tmpl_id").ids),
                 ])
                 if not template:
-                    template = request.env.ref("saas_apps.base_template")
+                    try:
+                        template = request.env.ref("saas_apps.base_template")
+                    except Exception:
+                        # TODO DAVID  Obtener una plantilla aleatoria
+                        template = request.env["saas.template"].sudo().search([('is_technical_template', '=', True)],
+                                                                              limit=1)
                 elif len(template) > 1:
                     _logger.warning("More that one saas package in order. Using first one")
                     template = template[0]

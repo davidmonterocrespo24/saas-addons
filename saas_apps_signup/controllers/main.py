@@ -1,13 +1,14 @@
 # Copyright 2020 Eugene Molotov <https://it-projects.info/team/em230418>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo.http import request, route, Controller
 import logging
 
 import werkzeug
-from werkzeug.urls import Href, url_encode
 from odoo import SUPERUSER_ID
 from odoo.addons.http_routing.models.ir_http import slugify
+from odoo.http import request, route, Controller
+from werkzeug.urls import Href, url_encode
+
 from odoo.addons.saas_portal.controllers.portal import CustomerPortal
 
 _logger = logging.getLogger(__name__)
@@ -25,7 +26,8 @@ class Main(Controller):
 
         is_free_slot = not request.env["saas.db"].sudo().search([("name", "=", database_name)])
         if is_free_slot:
-            return {"domain": request.env["saas.operator"].sudo().browse(int(operator_id)).db_url_template.format(db_name=database_name)}
+            return {"domain": request.env["saas.operator"].sudo().browse(int(operator_id)).db_url_template.format(
+                db_name=database_name)}
         else:
             return {"answer": "Database already exists"}
 
@@ -59,12 +61,15 @@ class Main(Controller):
                 })
         else:
             try:
+                base_template = request.env.ref("saas_apps.base_template")
                 qcontext.update({
-                    "operator_id": request.env.ref("saas_apps.base_template")._random_ready_operator_id()
+                    "operator_id": base_template._random_ready_operator_id()
                 })
-            except AssertionError as e:
+            except Exception as e:
+                base_template = request.env["saas.template"].sudo().search([('is_technical_template', '=', True)],
+                                                                           limit=1)
                 qcontext.update({
-                    "error": str(e),
+                    "operator_id": base_template._random_ready_operator_id()
                 })
 
         qcontext.update(
@@ -76,7 +81,8 @@ class Main(Controller):
         return request.render("saas_apps_signup.portal_create_build", qcontext)
 
     @route("/saas_apps_signup/make_database_for_trial", auth="public", type="http", website=True)
-    def make_database_for_trial(self, period, max_users_limit, database_name=None, installing_modules=None, saas_template_id=None, **kw):
+    def make_database_for_trial(self, period, max_users_limit, database_name=None, installing_modules=None,
+                                saas_template_id=None, **kw):
         params = {
             "max_users_limit": max_users_limit,
             "period": period,
@@ -84,7 +90,7 @@ class Main(Controller):
             "saas_template_id": saas_template_id or "",
         }
 
-        assert not(saas_template_id and installing_modules), "Both saas_template_id and installing_modules given"
+        assert not (saas_template_id and installing_modules), "Both saas_template_id and installing_modules given"
 
         if request.env.user == request.env.ref("base.public_user"):
             return werkzeug.utils.redirect(Href("/web/signup")(params))
@@ -118,7 +124,8 @@ class CustomerPortal(CustomerPortal):
 
         contract = build_sudo.contract_id
 
-        invoices = contract._get_related_invoices().filtered(lambda invoice: (invoice.state, invoice.payment_state) == ("posted", "not_paid"))
+        invoices = contract._get_related_invoices().filtered(
+            lambda invoice: (invoice.state, invoice.payment_state) == ("posted", "not_paid"))
         if not invoices:
             invoice = contract.recurring_create_invoice()
             invoice.action_post()

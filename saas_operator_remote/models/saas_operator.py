@@ -4,7 +4,6 @@
 import json
 
 import requests
-
 from odoo import fields, models
 
 

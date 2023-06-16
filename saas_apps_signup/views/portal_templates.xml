@@ -5,21 +5,24 @@
 
     <template id="portal_create_build" name="Create build">
         <t t-call="portal.portal_layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <form t-attf-action="/my/builds/create?{{ query }}" method="POST">
+                    <div class="form-group">
+                        <label for="database_name" class="col-form-label">Database name</label>
+                        <input type="text" class="form-control" name="database_name" id="database_name"
+                               t-att-value="database_name" onfocus="$('#database_create_error').hide()"/>
 
-            <form t-attf-action="/my/builds/create?{{ query }}" method="POST">
-                <div class="form-group">
-                    <label for="database_name" class="col-form-label">Database name</label>
-                    <input type="text" class="form-control" name="database_name" id="database_name" t-att-value="database_name" onfocus="$('#database_create_error').hide()"/>
+                        <div t-if="error" id="database_create_error" class="alert alert-danger text-center"
+                             role="alert">
+                            <t t-out="error"/>
+                        </div>
 
-                    <div t-if="error" id="database_create_error" class="alert alert-danger text-center" role="alert">
-                        <t t-out="error"/>
                     </div>
-
-                </div>
-                <input type="hidden" name="operator_id" t-att-value="operator_id"/>
-                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                <button type="submit" id="send_form" class="btn btn-primary">Create database</button>
-            </form>
+                    <input type="hidden" name="operator_id" t-att-value="operator_id"/>
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <button type="submit" id="send_form" class="btn btn-primary">Create database</button>
+                </form>
+            </div>
 
         </t>
     </template>

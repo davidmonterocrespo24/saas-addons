@@ -122,7 +122,11 @@ class Contract(models.Model):
                 ("product_tmpl_id", "in", contract_product_templates.ids),
             ])
             if not template:
-                template = self.env.ref("saas_apps.base_template")
+                try:
+                    template = self.env.ref("saas_apps.base_template")
+                except Exception:
+                    # TODO DAVID  Obtener una plantilla aleatoria
+                    template = self.env["saas.template"].search([('is_technical_template', '=', True)], limit=1)
             elif len(template) > 1:
                 _logger.warning("Expected only one template. Using first one from {} (given using {})".format(
                     repr(template),

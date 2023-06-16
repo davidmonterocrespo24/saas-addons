@@ -52,9 +52,13 @@ class SaaSAppsController(Controller):
         template = templates.search(
             [("is_package", "=", True), ("id", "=", template_id)]
         )
-        if not template:
-            # If package wasn't selected, use base saas_template
-            template = templates.env.ref("saas_apps.base_template")
+        try:
+            if not template:
+                # If package wasn't selected, use base saas_template
+                template = templates.env.ref("saas_apps.base_template")
+        except Exception:
+            # TODO DAVID  Obtener una plantilla aleatoria
+            template = request.env["saas.template"].search([('is_technical_template', '=', True)], limit=1)
 
         if not template.operator_ids.random_ready_operator():
             return {"id": template.id, "state": "creating"}
