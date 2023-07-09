@@ -12,6 +12,7 @@
         'base', 'se_repository_management', 'contract', 'saas'
     ],
     'data': [
+        'security/ir.model.access.csv',
         'views/saas_db.xml',
     ],
     'application': False,

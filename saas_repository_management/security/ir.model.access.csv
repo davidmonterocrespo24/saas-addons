@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+user_repository_repository,user_repository_repository,model_repository_repository,saas.group_user,1,1,1,0
