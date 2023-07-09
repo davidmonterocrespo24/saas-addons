@@ -9,7 +9,7 @@
     'author': 'David Montero Crespo',
     'installable': True,
     'depends': [
-        'base', 'se_repository_management', 'contract', 'saas'
+        'base', 'se_repository_management', 'saas'
     ],
     'data': [
         'security/ir.model.access.csv',
