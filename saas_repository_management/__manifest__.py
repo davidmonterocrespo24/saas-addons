@@ -9,7 +9,7 @@
     'author': 'David Montero Crespo',
     'installable': True,
     'depends': [
-        'base','se_repository_management'
+        'base', 'se_repository_management', 'contract', 'saas'
     ],
     'data': [
         'views/saas_db.xml',
