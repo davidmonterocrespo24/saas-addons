@@ -10,4 +10,3 @@ class SaasOperator(models.Model):
 
     def get_mandatory_modules(self):
         return super(SaasOperator, self).get_mandatory_modules()
-        ]
